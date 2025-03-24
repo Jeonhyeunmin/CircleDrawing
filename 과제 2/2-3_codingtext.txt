@@ -1,0 +1,57 @@
+코딩테스트 주사위 게임
+
+#include <string>
+#include <vector>
+#include <map>
+#include <cmath>
+#include <algorithm>
+
+using namespace std;
+
+int solution(int a, int b, int c, int d) {
+    int answer = 0;
+    
+    map<int, int> cnt;
+    cnt[a]++;
+    cnt[b]++;
+    cnt[c]++;
+    cnt[d]++;
+    
+    if(cnt.size() == 1){
+        answer = 1111 * a;
+    }
+    else if(cnt.size() == 2){
+        auto it = cnt.begin();
+        int x = it -> first;
+        int xCnt = it -> second;
+        it++;
+        int y = it -> first;
+        int yCnt = it -> second;
+        
+        if(xCnt == 3 || yCnt == 3){
+            int p = xCnt == 3 ? x : y;
+            int q = yCnt == 3 ? x : y;
+            answer = pow(10 * p + q, 2);
+        }
+        else{
+            answer = (x + y) * abs(x - y);
+        }
+        
+    }
+    else if(cnt.size() == 3){
+        int p = 0;
+        int q = 0;
+        int r = 0;
+        for(auto it : cnt){
+            if(it.second == 2) p = it.first;
+            else if(q == 0) q = it.first;
+            else r = it.first;
+        }
+        answer = q * r;
+    }
+    else{
+        answer = min({a, b, c, d});
+    }
+    
+    return answer;
+}
